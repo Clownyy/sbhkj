@@ -17,13 +17,36 @@ class Transaction_m extends CI_Model {
 	}
 	public function getCarts()
 	{
-		$this->db->select('carts.*, p_item.name as item_name, p_item.barcode as barcode');
+		$this->db->select('carts.*, p_item.name as item_name, p_item.barcode as barcode, p_item.price as price');
 		$this->db->from('carts');
 		$this->db->join('p_item', 'p_item.item_id = carts.item_id');
 		$this->db->where('status', 1);
 		$this->db->where('user_id', $this->session->userdata('userid'));
 		$query = $this->db->get();
 		return $query;
+	}
+	public function jumlahCarts()
+	{
+		$this->db->select_sum('sub_total');
+		$this->db->from('carts');
+		$this->db->where('status', 1);
+		$this->db->where('user_id', $this->session->userdata('userid'));
+		$query = $this->db->get()->row()->sub_total;
+		return $query;
+	}
+	public function updateCarts($finalkodeunik)
+	{
+		$this->db->set('kode_unik', $finalkodeunik);
+		$this->db->where('status', 1);
+		$this->db->where('user_id', $this->session->userdata('userid'));
+		return $this->db->update('carts');
+	}
+	public function updateStatus()
+	{
+		$this->db->set('status', 0);
+		$this->db->where('status', 1);
+		$this->db->where('user_id', $this->session->userdata('userid'));
+		return $this->db->update('carts');
 	}
 
 }

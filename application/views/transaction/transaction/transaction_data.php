@@ -82,17 +82,26 @@
 								<td>
 							<?php 
 							$generator = new \Picqer\Barcode\BarcodeGeneratorPNG();
-							echo '<img src="data:image/png;base64,'.base64_encode($generator->getBarcode($s->barcode, $generator::TYPE_CODE_128)).'">';
+							echo '<img src="data:image/png;base64,'.base64_encode($generator->getBarcode($c->barcode, $generator::TYPE_CODE_128)).'">';
 							?><br>
-							<?=$s->barcode?></td>
+							<?=$c->barcode?></td>
 								<td><?=$c->item_name?></td>
 								<td><?=$c->jumlah?></td>
-								<td><?=$c->sub_total?></td>
+								<td>Rp. <?=number_format($c->sub_total, 2, ',', '.')?></td>
 								<td><center><a href="" class="btn btn-danger"><i class="fa fa-trash"></i></a></center></td>
 							</tr>
 							<?php } ?>
 						</tbody>
 					</table>
+					<hr>
+					<div class="text-right">
+						<p class="h5">Total Harga : <b>Rp. <?=number_format($totalCarts, 2, ',', '.')?></b></p>
+					</div>
+				</div>
+				<div class="box-footer text-right">
+					<?php if ($totalCarts != 0) { ?>
+						<a href="<?= base_url('transaction/checkout') ?>" class="btn btn-primary btn-sm"><i class="fa fa-shopping-cart"></i> Checkout</a>
+					<?php } ?>
 				</div>
 			</div>
 		</div>

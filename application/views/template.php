@@ -160,21 +160,20 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="<?=base_url('transaction')?>"><i class="fa fa-circle-o"></i> Sales</a></li>
-            <li><a href="<?=base_url('stock/in')?>"><i class="fa fa-circle-o"></i> Stock In</a></li>
-            <li><a href="<?=base_url('stock/out')?>"><i class="fa fa-circle-o"></i> Stock Out</a></li>
+            <li><a href="<?=base_url('transaction')?>"><i class="fa fa-circle-o"></i> Transaction</a></li>
+            <li><a href="<?=base_url('transaction/history')?>"><i class="fa fa-circle-o"></i> History Transaction</a></li>
           </ul>
         </li>
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-pie-chart"></i> <span>Reports</span>
+            <i class="fa fa-houzz"></i> <span>Inventory</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="<?=base_url('reports/sales')?>"><i class="fa fa-circle-o"></i> Sales</a></li>
-            <li><a href="<?=base_url('reports/stock')?>"><i class="fa fa-circle-o"></i> Stock</a></li>
+            <li><a href="<?=base_url('stock/in')?>"><i class="fa fa-circle-o"></i> Stock In</a></li>
+            <li><a href="<?=base_url('stock/out')?>"><i class="fa fa-circle-o"></i> Stock Out</a></li>
           </ul>
         </li>
         <?php if($this->session->userdata('level') == 1) { ?>
