@@ -45,7 +45,7 @@
   <!-- Google Font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 </head>
-<body class="hold-transition skin-green sidebar-mini">
+<body class="hold-transition skin-red sidebar-mini">
 <div class="wrapper">
   <header class="main-header">
     <!-- Logo -->
@@ -160,7 +160,7 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="<?=base_url('sales')?>"><i class="fa fa-circle-o"></i> Sales</a></li>
+            <li><a href="<?=base_url('transaction')?>"><i class="fa fa-circle-o"></i> Sales</a></li>
             <li><a href="<?=base_url('stock/in')?>"><i class="fa fa-circle-o"></i> Stock In</a></li>
             <li><a href="<?=base_url('stock/out')?>"><i class="fa fa-circle-o"></i> Stock Out</a></li>
           </ul>
