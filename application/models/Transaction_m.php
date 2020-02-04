@@ -34,6 +34,15 @@ class Transaction_m extends CI_Model {
 		$query = $this->db->get()->row()->sub_total;
 		return $query;
 	}
+	public function totalCarts($id)
+	{
+		$this->db->select('*');
+		$this->db->from('carts');
+		$this->db->where('status', 1);
+		$this->db->where('user_id', $this->session->userdata('userid'));
+		$query = $this->db->count_all_results();
+		return $query;
+	}
 	public function updateCarts($finalkodeunik)
 	{
 		$this->db->set('kode_unik', $finalkodeunik);

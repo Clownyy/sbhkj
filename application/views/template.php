@@ -64,6 +64,21 @@
       <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
           <!-- User Account: style can be found in dropdown.less -->
+          <li class="user">
+            <a href="#">
+              <i class="fa fa-shopping-cart"></i>
+              <span class="label label-success">
+                <?php 
+                  $this->db->select('*');
+                  $this->db->from('carts');
+                  $this->db->where('status', 1);
+                  $this->db->where('user_id', $this->session->userdata('userid'));
+                  $query = $this->db->count_all_results();
+                  echo $query
+                 ?>
+              </span>
+            </a>
+          </li>
           <li class="user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="asd">
               <i class="hidden-xs" id="date_time"></i>
@@ -154,13 +169,33 @@
         </li>
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-shopping-cart"></i> <span>Transaction</span>
+            <i class="fa fa-shopping-cart"></i> <span>Transaction</span>&emsp;
+            <span class="label label-success">
+              <?php 
+                $this->db->select('*');
+                $this->db->from('carts');
+                $this->db->where('status', 1);
+                $this->db->where('user_id', $this->session->userdata('userid'));
+                $query = $this->db->count_all_results();
+                echo $query
+               ?>
+            </span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="<?=base_url('transaction')?>"><i class="fa fa-circle-o"></i> Transaction</a></li>
+            <li><a href="<?=base_url('transaction')?>"><i class="fa fa-circle-o"></i> Transaction&emsp;
+              <span class="label label-success">
+                <?php 
+                  $this->db->select('*');
+                  $this->db->from('carts');
+                  $this->db->where('status', 1);
+                  $this->db->where('user_id', $this->session->userdata('userid'));
+                  $query = $this->db->count_all_results();
+                  echo $query
+                 ?>
+              </span></a></li>
             <li><a href="<?=base_url('transaction/history')?>"><i class="fa fa-circle-o"></i> History Transaction</a></li>
           </ul>
         </li>
