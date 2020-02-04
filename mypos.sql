@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.0.1
+-- version 4.9.2
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 13 Des 2019 pada 17.55
--- Versi server: 10.4.6-MariaDB
--- Versi PHP: 7.3.9
+-- Waktu pembuatan: 04 Feb 2020 pada 03.06
+-- Versi server: 10.4.10-MariaDB
+-- Versi PHP: 7.3.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -21,6 +21,45 @@ SET time_zone = "+00:00";
 --
 -- Database: `mypos`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `carts`
+--
+
+CREATE TABLE `carts` (
+  `id` int(11) NOT NULL,
+  `item_id` int(11) NOT NULL,
+  `jumlah` int(11) NOT NULL,
+  `sub_total` int(11) DEFAULT NULL,
+  `status` int(11) NOT NULL,
+  `kode_unik` varchar(12) NOT NULL,
+  `user_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data untuk tabel `carts`
+--
+
+INSERT INTO `carts` (`id`, `item_id`, `jumlah`, `sub_total`, `status`, `kode_unik`, `user_id`) VALUES
+(1, 8, 1, 30000, 1, '333846320161', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `checkout`
+--
+
+CREATE TABLE `checkout` (
+  `id` int(11) NOT NULL,
+  `total` int(11) NOT NULL,
+  `user` varchar(255) NOT NULL,
+  `bayar` int(11) NOT NULL,
+  `kembalian` int(11) NOT NULL,
+  `metode_pembayaran` varchar(255) NOT NULL,
+  `kode_unik` varchar(12) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -44,35 +83,6 @@ CREATE TABLE `customer` (
 
 INSERT INTO `customer` (`customer_id`, `name`, `gender`, `phone`, `address`, `created`, `updated`) VALUES
 (1, 'Muhammad Jumialdi', 'L', '089212393', 'Condet', '2019-10-14 10:44:50', '0000-00-00 00:00:00');
-
--- --------------------------------------------------------
-
---
--- Struktur dari tabel `order_detail`
---
-
-CREATE TABLE `order_detail` (
-  `id` int(11) NOT NULL,
-  `product_id` int(11) NOT NULL,
-  `total` int(11) NOT NULL,
-  `date` date NOT NULL,
-  `deskripsi` varchar(255) NOT NULL,
-  `user_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Struktur dari tabel `order_tmp`
---
-
-CREATE TABLE `order_tmp` (
-  `id` int(11) NOT NULL,
-  `product_id` int(11) NOT NULL,
-  `total` int(11) NOT NULL,
-  `date` date NOT NULL,
-  `user_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -120,7 +130,7 @@ CREATE TABLE `p_item` (
 --
 
 INSERT INTO `p_item` (`item_id`, `barcode`, `name`, `category_id`, `unit_id`, `price`, `stock`, `image`, `created`, `updated`) VALUES
-(8, 'A001', 'Susu Dancow', 4, 4, 30000, 150, 'item-191021-1410913332.png', '2019-10-21 21:54:48', NULL),
+(8, 'A001', 'Susu Dancow', 4, 4, 30000, 48, 'item-191021-1410913332.png', '2019-10-21 21:54:48', NULL),
 (10, 'A002', 'Chiki Jetz', 3, 4, 5000, 100, 'item-191023-1534586204.jpg', '2019-10-23 06:52:54', NULL);
 
 -- --------------------------------------------------------
@@ -181,7 +191,7 @@ CREATE TABLE `t_stock` (
   `item_id` int(11) NOT NULL,
   `type` enum('in','out') NOT NULL,
   `detail` varchar(200) NOT NULL,
-  `supplier_id` int(11) NOT NULL,
+  `supplier_id` int(11) DEFAULT NULL,
   `qty` int(10) NOT NULL,
   `date` date NOT NULL,
   `created` datetime NOT NULL DEFAULT current_timestamp(),
@@ -195,7 +205,11 @@ CREATE TABLE `t_stock` (
 INSERT INTO `t_stock` (`stock_id`, `item_id`, `type`, `detail`, `supplier_id`, `qty`, `date`, `created`, `user_id`) VALUES
 (58, 8, 'in', 'Masuk Susu Dancow', 1, 100, '2019-10-23', '2019-10-23 06:53:34', 1),
 (59, 10, 'in', 'Masuk Chiki Jetz', 1, 100, '2019-10-23', '2019-10-23 06:53:49', 1),
-(60, 8, 'in', 'Tambahan 50', 1, 50, '2019-10-23', '2019-10-23 06:55:00', 1);
+(60, 8, 'in', 'Tambahan 50', 1, 50, '2019-10-23', '2019-10-23 06:55:00', 1),
+(64, 8, 'out', 'Penjualan', NULL, 50, '2020-01-15', '2020-01-15 19:47:23', 1),
+(65, 8, 'out', 'Penjualan', NULL, 101, '2020-01-15', '2020-01-15 19:49:24', 1),
+(66, 8, 'in', 'Pemasukkan', 1, 101, '2020-01-15', '2020-01-15 19:50:02', 1),
+(67, 8, 'out', 'Penjualan', NULL, 50, '2020-01-29', '2020-01-29 11:48:59', 1);
 
 -- --------------------------------------------------------
 
@@ -225,22 +239,22 @@ INSERT INTO `user` (`user_id`, `username`, `password`, `name`, `address`, `level
 --
 
 --
+-- Indeks untuk tabel `carts`
+--
+ALTER TABLE `carts`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indeks untuk tabel `checkout`
+--
+ALTER TABLE `checkout`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indeks untuk tabel `customer`
 --
 ALTER TABLE `customer`
   ADD PRIMARY KEY (`customer_id`);
-
---
--- Indeks untuk tabel `order_detail`
---
-ALTER TABLE `order_detail`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indeks untuk tabel `order_tmp`
---
-ALTER TABLE `order_tmp`
-  ADD PRIMARY KEY (`id`);
 
 --
 -- Indeks untuk tabel `p_category`
@@ -289,22 +303,22 @@ ALTER TABLE `user`
 --
 
 --
+-- AUTO_INCREMENT untuk tabel `carts`
+--
+ALTER TABLE `carts`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT untuk tabel `checkout`
+--
+ALTER TABLE `checkout`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT untuk tabel `customer`
 --
 ALTER TABLE `customer`
   MODIFY `customer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- AUTO_INCREMENT untuk tabel `order_detail`
---
-ALTER TABLE `order_detail`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT untuk tabel `order_tmp`
---
-ALTER TABLE `order_tmp`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT untuk tabel `p_category`
@@ -328,13 +342,13 @@ ALTER TABLE `p_unit`
 -- AUTO_INCREMENT untuk tabel `supplier`
 --
 ALTER TABLE `supplier`
-  MODIFY `supplier_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `supplier_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=309129;
 
 --
 -- AUTO_INCREMENT untuk tabel `t_stock`
 --
 ALTER TABLE `t_stock`
-  MODIFY `stock_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
+  MODIFY `stock_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
 
 --
 -- AUTO_INCREMENT untuk tabel `user`
