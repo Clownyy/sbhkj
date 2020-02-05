@@ -15,6 +15,24 @@ class Transaction_m extends CI_Model {
 	{
 		$this->db->insert($table,$data);
 	}
+	public function getInvoice($kode_unik)
+	{
+		$this->db->select('checkout.*, p_item.name as item_name, p_item.barcode as barcode_item, p_item.price as harga_satuan, user.name as cashier');
+		$this->db->from('checkout');
+		$this->db->join('p_item', 'p_item.barcode = checkout.kode_unik');
+		$this->db->join('user', 'user.user_id = checkout.user_id');
+		$this->db->where('checkout.kode_unik', $kode_unik);
+		$query = $this->db->get()->row();
+		return $query;
+	}
+	public function getHistory()
+	{
+		$this->db->select('checkout.*, user.name as name');
+		$this->db->from('checkout');
+		$this->db->join('user', 'user.user_id = checkout.user_id');
+		$query = $this->db->get();
+		return $query;
+	}
 	public function getCarts()
 	{
 		$this->db->select('carts.*, p_item.name as item_name, p_item.barcode as barcode, p_item.price as price');

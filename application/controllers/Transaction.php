@@ -17,6 +17,16 @@ class Transaction extends CI_Controller {
 		$data['totalCarts'] = $this->transaction_m->jumlahCarts();
 		$this->template->load('template', 'transaction/transaction/transaction_data', $data);
 	}
+	public function invoice($kode_unik)
+	{
+		$data['invoice'] = $this->transaction_m->getInvoice($kode_unik);
+		$this->template->load('template', 'transaction/history/invoice',$data);
+	}
+	public function history()
+	{
+		$data['history'] = $this->transaction_m->getHistory();
+		$this->template->load('template', 'transaction/history/history_data', $data);
+	}
 	public function pembayaran()
 	{
 		$total = $this->input->post('total');
