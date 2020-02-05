@@ -7,7 +7,6 @@ class Transaction extends CI_Controller {
 	{
 		parent::__construct();
 		check_not_login();
-		check_admin_kasir();
 		$this->load->model(['transaction_m','item_m','stock_m','menu_m']);
 	}
 
@@ -45,6 +44,9 @@ class Transaction extends CI_Controller {
 		$this->transaction_m->inputTransaction($params, 'order');
 		$this->transaction_m->updateCarts($finalkodeunik);
 		$this->transaction_m->updateStatus();
+		if ($this->db->affected_rows() > 0) {
+			$this->session->set_flashdata('success', 'Pesanan anda telah kami terima, silahkan tunggu');
+		}
 		redirect('order');
 
 	}
