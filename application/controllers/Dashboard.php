@@ -7,6 +7,7 @@ class Dashboard extends CI_Controller {
 	{
 		parent::__construct();
 		check_not_login();
+		check_admin_kasir();
 		$this->load->model('supplier_m');
 		$this->load->model('user_m');
 		$this->load->model('customer_m');

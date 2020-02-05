@@ -34,8 +34,10 @@
 						<td><?=$u->address?></td>
 						<?php if($u->level == 1){ ?>
 						<td><label class="label label-success">Admin</label></td>
-						<?php }else{ ?>
+						<?php }else if($u->level == 2){ ?>
 						<td><label class="label label-warning">Kasir</label></td>
+						<?php }else{ ?>
+						<td><label class="label label-primary">User</label></td>
 						<?php } ?>
 						<td class="text-center" width="160px">
 							<form action="<?=base_url('user/del')?>" method="post">
@@ -112,10 +114,17 @@
 									<?php if ($u->level == 1): ?>
 										<option value="1" selected>Admin</option>
 										<option value="2">Kasir</option>
+										<option value="3">User</option>
 									<?php endif ?>
 									<?php if ($u->level == 2): ?>
 										<option value="1">Admin</option>
 										<option value="2" selected>Kasir</option>
+										<option value="3">User</option>
+									<?php endif ?>
+									<?php if ($u->level == 3): ?>
+										<option value="1">Admin</option>
+										<option value="2">Kasir</option>
+										<option value="3" selected>User</option>
 									<?php endif ?>
 								</select>
 							</div>

@@ -11,97 +11,67 @@
 <section class="content">
 	<?php $this->load->view('messages'); ?>
 	<div class="row">
-		<div class="col-md-4">
+		<div class="col-md-6">
 			<div class="box">
 				<div class="box-header">
-					<h3 class="box-title">Pilih Produk</h3>
+					<h3 class="box-title">Pesanan</h3>
 				</div>
-				<div class="box-body">
+				<div class="box-body table-responsive">
+					<table class="table table-bordered table-striped">
+						<thead>
+							<tr>
+								<th>No</th>
+								<th>ID Order</th>
+								<th>Tanggal</th>
+								<th>Pelanggan</th>
+								<th>Keterangan</th>
+								<th>Status Order</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr></tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-6">
+			<div class="box">
+				<div class="box-header">
+					<h3 class="box-title">Pilih Pesanan Pelanggan</h3>
+				</div>
+				<div class="box-body table-responsive">
 					<form action="<?=base_url('transaction/cartStore')?>" method="post">
 						<div class="form-group">
-							<label>Nama Produk</label>
+							<label>Nama User</label>
 							<input type="hidden" name="user_id" value="<?=$this->session->userdata('userid')?>">
 							<select class="form-control" id="product" name="item_id">
 								<option value="">--</option>
-								<?php foreach($product->result() as $p){?>
-								<option value="<?=$p->item_id?>"><?=$p->name?></option>
-								<?php }?>
 							</select>
 						</div>
 						<div class="panel panel-default">
 							<div class="panel-body">
 								<table>
 									<tr>
-										<td width="100">Stok tersisa</td>
-										<td><b>: </b></td>
-										<td><b id="stok"></b></td>
+										<td style="font-size: 20pt" width="200">Nomor Meja</td>
+										<td style="font-size: 20pt"><b>: </b></td>
+										<td style="font-size: 20pt"><b id="stok"></b></td>
 									</tr>
 									<tr>
-										<td width="100">Harga</td>
-										<td><b>: Rp.</b></td>
-										<td><b id="price" name="harga"></b></td>
+										<td style="font-size: 20pt" width="200">Harga</td>
+										<td style="font-size: 20pt"><b>: Rp.</b></td>
+										<td style="font-size: 20pt"><b id="price" name="harga"></b></td>
 									</tr>
 									<tr>
-										<td colspan="3"><i>Sudah termasuk PPN</i></td>
+										<td colspan="3" style="font-size: 15pt"><i>Sudah termasuk PPN</i></td>
 									</tr>
 								</table>
 							</div>
-						</div>
-						<div class="row">
-							<div class="col-md-8">
-								<input type="number" name="qty" class="form-control">
-							</div>
-							<div class="col-md-4">
-								<button class="btn btn-primary">Tambah</button>
+							<div class="panel-footer text-right">
+								<button type="submit" class="btn btn-primary"><i class="fa fa-shopping-cart"></i> Checkout</button>
 							</div>
 						</div>
 					</form>
-				</div>
-			</div>
-		</div>
-		<div class="col-md-8">
-			<div class="box">
-				<div class="box-header">
-					<h3 class="box-title">Keranjang</h3>
-				</div>
-				<div class="box-body table-responsive">
-					<table class="table table-bordered table-striped">
-						<thead>
-							<tr>
-								<th>NO.</th>
-								<th>Barcode</th>
-								<th>Nama Produk</th>
-								<th>Jumlah</th>
-								<th colspan="2">Total Harga</th>
-							</tr>
-						</thead>
-						<tbody>
-							<?php $no=1; foreach($carts->result() as $c){ ?>
-							<tr>
-								<td><?=$no++?></td>
-								<td>
-							<?php 
-							$generator = new \Picqer\Barcode\BarcodeGeneratorPNG();
-							echo '<img src="data:image/png;base64,'.base64_encode($generator->getBarcode($c->barcode, $generator::TYPE_CODE_128)).'">';
-							?><br>
-							<?=$c->barcode?></td>
-								<td><?=$c->item_name?></td>
-								<td><?=$c->jumlah?></td>
-								<td>Rp. <?=number_format($c->sub_total, 2, ',', '.')?></td>
-								<td><center><a href="" class="btn btn-danger"><i class="fa fa-trash"></i></a></center></td>
-							</tr>
-							<?php } ?>
-						</tbody>
-					</table>
-					<hr>
-					<div class="text-right">
-						<p class="h5">Total Harga : <b>Rp. <?=number_format($totalCarts, 2, ',', '.')?></b></p>
-					</div>
-				</div>
-				<div class="box-footer text-right">
-					<?php if ($totalCarts != 0) { ?>
-						<a href="<?= base_url('transaction/checkout') ?>" class="btn btn-primary btn-sm"><i class="fa fa-shopping-cart"></i> Checkout</a>
-					<?php } ?>
 				</div>
 			</div>
 		</div>

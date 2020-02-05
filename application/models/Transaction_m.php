@@ -35,11 +35,12 @@ class Transaction_m extends CI_Model {
 	}
 	public function getCarts()
 	{
-		$this->db->select('carts.*, p_item.name as item_name, p_item.barcode as barcode, p_item.price as price');
+		$this->db->select('carts.*, menu.nama_menu as menu, menu.barcode as barcode_menu, menu.harga as harga, user.user_id as user_id');
 		$this->db->from('carts');
-		$this->db->join('p_item', 'p_item.item_id = carts.item_id');
+		$this->db->join('menu', 'menu.id_menu = carts.menu_id');
+		$this->db->join('user', 'user.user_id = carts.user_id');
 		$this->db->where('status', 1);
-		$this->db->where('user_id', $this->session->userdata('userid'));
+		$this->db->where('carts.user_id', $this->session->userdata('userid'));
 		$query = $this->db->get();
 		return $query;
 	}

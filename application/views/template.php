@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>MyPos | Dashboard</title>
+  <title>LSPResto | Dashboard</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.7 -->
@@ -51,9 +51,9 @@
     <!-- Logo -->
     <a href="<?=base_url()?>" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
-      <span class="logo-mini"><b>P</b>OS</span>
+      <span class="logo-mini"><b>LS</b>PR</span>
       <!-- logo for regular state and mobile devices -->
-      <span class="logo-lg"><b>Point</b>OfSales</span>
+      <span class="logo-lg"><b>LSP</b>Resto</span>
     </a>
     <!-- Header Navbar: style can be found in header.less -->
     <nav class="navbar navbar-static-top">
@@ -120,8 +120,10 @@
           <p><?=$this->session->userdata('name')?></p>
           <?php if($this->session->userdata('level') == 1) { ?>
             <a href="#"><i class="fa fa-circle text-success"></i> SuperAdmin</a>
-          <?php }else{ ?>
+          <?php }else if($this->session->userdata('level') == 2){ ?>
             <a href="#"><i class="fa fa-circle text-warning"></i> Cashier</a>
+          <?php }else{ ?>
+            <a href="#"><i class="fa fa-circle text-primary"></i> User</a>
           <?php } ?>
         </div>
       </div>
@@ -138,13 +140,14 @@
       <!-- /.search form -->
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
+        <?php if($this->session->userdata('level') == 1 || $this->session->userdata('level') == 2): ?>
         <li class="header">MAIN NAVIGATION</li>
         <li>
           <a href="<?=base_url('dashboard')?>">
             <i class="fa fa-dashboard"></i> <span>Dashboard</span>
           </a>
         </li>
-        <li>
+        <!-- <li>
         	<a href="<?=base_url('supplier')?>">
         		<i class="fa fa-truck"></i> <span>Suppliers</span>
         	</a>
@@ -166,6 +169,11 @@
             <li><a href="<?=base_url('unit')?>"><i class="fa fa-circle-o"></i> Units</a></li>
             <li><a href="<?=base_url('item')?>"><i class="fa fa-circle-o"></i> Items</a></li>
           </ul>
+        </li> -->
+        <li>
+          <a href="<?=base_url('menu')?>">
+            <i class="fa fa-list"></i> <span>Menu</span>
+          </a>
         </li>
         <li class="treeview">
           <a href="#">
@@ -199,7 +207,7 @@
             <li><a href="<?=base_url('transaction/history')?>"><i class="fa fa-circle-o"></i> History Transaction</a></li>
           </ul>
         </li>
-        <li class="treeview">
+        <!-- <li class="treeview">
           <a href="#">
             <i class="fa fa-houzz"></i> <span>Inventory</span>
             <span class="pull-right-container">
@@ -210,7 +218,8 @@
             <li><a href="<?=base_url('stock/in')?>"><i class="fa fa-circle-o"></i> Stock In</a></li>
             <li><a href="<?=base_url('stock/out')?>"><i class="fa fa-circle-o"></i> Stock Out</a></li>
           </ul>
-        </li>
+        </li> -->
+        <?php endif ?>
         <?php if($this->session->userdata('level') == 1) { ?>
         <li class="header">SETTINGS</li>
         <li>
@@ -219,6 +228,12 @@
         	</a>
         </li>
         <?php } ?>
+        <li class="header">ORDERS</li>
+        <li>
+          <a href="<?=base_url('order')?>">
+            <i class="fa fa-houzz"></i> <span>Order</span>
+          </a>
+        </li>
       </ul>
   </aside>
   <div class="content-wrapper">
@@ -293,6 +308,20 @@ $("ul a").click(function(e) {
         return false;
     }
 });
+</script>
+<script>
+  function readURL1(input) {
+  if (input.files && input.files[0]) {
+    var reader = new FileReader();
+ 
+    reader.onload = function (e) {
+      $('#blah1')
+      .attr('src', e.target.result);
+    };
+ 
+    reader.readAsDataURL(input.files[0]);
+  }
+}
 </script>
 <!-- <script>
   $('#tableSupplier').DataTable()

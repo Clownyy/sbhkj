@@ -24,4 +24,12 @@ function check_admin()
         redirect('dashboard');
     }
 }
+function check_admin_kasir()
+{
+    $ci =& get_instance();
+    $user_session = $ci->session->userdata('level');
+    if ($user_session != 1 && $user_session != 2) {
+        redirect('order');
+    }
+}
 ?>
