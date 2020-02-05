@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 04 Feb 2020 pada 03.06
+-- Waktu pembuatan: 06 Feb 2020 pada 00.38
 -- Versi server: 10.4.10-MariaDB
 -- Versi PHP: 7.3.12
 
@@ -30,10 +30,10 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `carts` (
   `id` int(11) NOT NULL,
-  `item_id` int(11) NOT NULL,
+  `menu_id` int(11) NOT NULL,
   `jumlah` int(11) NOT NULL,
   `sub_total` int(11) DEFAULT NULL,
-  `status` int(11) NOT NULL,
+  `status` int(11) NOT NULL COMMENT '0:ordered,1:oncarts',
   `kode_unik` varchar(12) NOT NULL,
   `user_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -42,8 +42,14 @@ CREATE TABLE `carts` (
 -- Dumping data untuk tabel `carts`
 --
 
-INSERT INTO `carts` (`id`, `item_id`, `jumlah`, `sub_total`, `status`, `kode_unik`, `user_id`) VALUES
-(1, 8, 1, 30000, 1, '333846320161', 1);
+INSERT INTO `carts` (`id`, `menu_id`, `jumlah`, `sub_total`, `status`, `kode_unik`, `user_id`) VALUES
+(7, 13, 2, 40000, 0, '909377837339', 1),
+(8, 14, 1, 20000, 0, '909377837339', 1),
+(9, 15, 3, 60000, 0, '909377837339', 1),
+(10, 13, 2, 40000, 0, '830046874574', 1),
+(11, 14, 2, 40000, 0, '830046874574', 1),
+(12, 15, 1, 20000, 0, '830046874574', 1),
+(13, 13, 2, 40000, 0, '832711893630', 5);
 
 -- --------------------------------------------------------
 
@@ -54,7 +60,7 @@ INSERT INTO `carts` (`id`, `item_id`, `jumlah`, `sub_total`, `status`, `kode_uni
 CREATE TABLE `checkout` (
   `id` int(11) NOT NULL,
   `total` int(11) NOT NULL,
-  `user` varchar(255) NOT NULL,
+  `user_id` int(11) NOT NULL,
   `bayar` int(11) NOT NULL,
   `kembalian` int(11) NOT NULL,
   `metode_pembayaran` varchar(255) NOT NULL,
@@ -87,6 +93,55 @@ INSERT INTO `customer` (`customer_id`, `name`, `gender`, `phone`, `address`, `cr
 -- --------------------------------------------------------
 
 --
+-- Struktur dari tabel `menu`
+--
+
+CREATE TABLE `menu` (
+  `id_menu` int(11) NOT NULL,
+  `barcode` int(12) NOT NULL,
+  `nama_menu` varchar(100) NOT NULL,
+  `jenis` varchar(100) NOT NULL,
+  `harga` int(11) NOT NULL,
+  `foto` varchar(255) NOT NULL,
+  `status_menu` int(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data untuk tabel `menu`
+--
+
+INSERT INTO `menu` (`id_menu`, `barcode`, `nama_menu`, `jenis`, `harga`, `foto`, `status_menu`) VALUES
+(13, 2147483647, 'Nasi Goreng', 'Makanan', 20000, 'menu-200205-2013420634.png', 1),
+(14, 2147483647, 'Jus Jambu', 'Minuman', 10000, 'menu-200205-1190776744.png', 1),
+(15, 2147483647, 'Ayam Goreng', 'Makanan', 40000, 'menu-200205-1381576124.png', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `order`
+--
+
+CREATE TABLE `order` (
+  `order_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `carts_barcode` varchar(12) NOT NULL,
+  `tanggal` datetime NOT NULL DEFAULT current_timestamp(),
+  `keterangan` text DEFAULT NULL,
+  `status_order` int(1) NOT NULL COMMENT '0:unpayed,1:payed'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data untuk tabel `order`
+--
+
+INSERT INTO `order` (`order_id`, `user_id`, `carts_barcode`, `tanggal`, `keterangan`, `status_order`) VALUES
+(4, 1, '909377837339', '2020-02-06 03:48:23', 'Pedas', 0),
+(5, 1, '830046874574', '2020-02-06 03:52:52', '', 0),
+(6, 5, '832711893630', '2020-02-06 03:54:16', '', 0);
+
+-- --------------------------------------------------------
+
+--
 -- Struktur dari tabel `p_category`
 --
 
@@ -102,7 +157,6 @@ CREATE TABLE `p_category` (
 --
 
 INSERT INTO `p_category` (`category_id`, `name`, `created`, `updated`) VALUES
-(1, 'Elektronik', '2019-10-14 11:02:42', '2019-10-14 06:16:27'),
 (3, 'Makanan', '2019-10-21 21:52:14', NULL),
 (4, 'Minuman', '2019-10-21 21:52:18', NULL);
 
@@ -223,7 +277,7 @@ CREATE TABLE `user` (
   `password` varchar(40) NOT NULL,
   `name` varchar(100) NOT NULL,
   `address` varchar(200) DEFAULT NULL,
-  `level` int(1) NOT NULL COMMENT '1:admin,2:kasir'
+  `level` int(1) NOT NULL COMMENT '1:admin,2:kasir,3:user'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -232,7 +286,8 @@ CREATE TABLE `user` (
 
 INSERT INTO `user` (`user_id`, `username`, `password`, `name`, `address`, `level`) VALUES
 (1, 'admin', 'd033e22ae348aeb5660fc2140aec35850c4da997', 'Muhammad Bafaqih', 'Kebon Baru', 1),
-(2, 'kasir1', '8691e4fc53b99da544ce86e22acba62d13352eff', 'Muhammad Fahrul', 'Surabaya', 2);
+(2, 'kasir1', '8691e4fc53b99da544ce86e22acba62d13352eff', 'Muhammad Fahrul', 'Surabaya', 2),
+(5, 'user1', 'b3daa77b4c04a9551b8781d03191fe098f325e67', 'Muhammad Jumialdi', 'Condet', 3);
 
 --
 -- Indexes for dumped tables
@@ -255,6 +310,18 @@ ALTER TABLE `checkout`
 --
 ALTER TABLE `customer`
   ADD PRIMARY KEY (`customer_id`);
+
+--
+-- Indeks untuk tabel `menu`
+--
+ALTER TABLE `menu`
+  ADD PRIMARY KEY (`id_menu`);
+
+--
+-- Indeks untuk tabel `order`
+--
+ALTER TABLE `order`
+  ADD PRIMARY KEY (`order_id`);
 
 --
 -- Indeks untuk tabel `p_category`
@@ -306,19 +373,31 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT untuk tabel `carts`
 --
 ALTER TABLE `carts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT untuk tabel `checkout`
 --
 ALTER TABLE `checkout`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT untuk tabel `customer`
 --
 ALTER TABLE `customer`
   MODIFY `customer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT untuk tabel `menu`
+--
+ALTER TABLE `menu`
+  MODIFY `id_menu` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+
+--
+-- AUTO_INCREMENT untuk tabel `order`
+--
+ALTER TABLE `order`
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT untuk tabel `p_category`
@@ -354,7 +433,7 @@ ALTER TABLE `t_stock`
 -- AUTO_INCREMENT untuk tabel `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
