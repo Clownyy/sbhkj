@@ -20,14 +20,10 @@ class Auth extends CI_Controller {
 				$params = array(
 					'userid' => $row->user_id,
 					'level' => $row->level,
-					'name' => $row->name,
-					'address' => $row->address
+					'name' => $row->nama,
 				);
 				$this->session->set_userdata($params);
-				echo "<script>
-				alert('Selamat Anda Berhasil Login');
-				window.location='".site_url('dashboard')."';
-				</script>";
+				redirect('dashboard');
 			}else{
 				echo "<script>
 				alert('Gagal, Username / Password Salah!');
