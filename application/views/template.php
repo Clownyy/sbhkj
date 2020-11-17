@@ -132,12 +132,23 @@
         <li class="header">MASTER DATA</li>
         <li>
           <a href="<?=base_url('dewan')?>">
-            <i class="fa fa-users"></i> <span>Data Dewan</span>
+            <i class="fa fa-user"></i> <span>Data Dewan</span>
           </a>
         </li>
         <li>
           <a href="<?=base_url('krida')?>">
             <i class="fa fa-map-signs"></i> <span>Data Krida</span>
+          </a>
+        </li>
+        <li>
+          <a href="<?=base_url('anggota')?>">
+            <i class="fa fa-users"></i> <span>Data Anggota</span>
+          </a>
+        </li>
+        <li class="header">PLAYZONE</li>
+        <li>
+          <a href="<?=base_url('playzone/dod')?>">
+            <i class="fa fa-exclamation-triangle"></i> <span>DoD Challenge</span>
           </a>
         </li>
         <li class="header">CONTENT DATA</li>
