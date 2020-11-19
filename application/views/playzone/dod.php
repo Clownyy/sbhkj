@@ -18,13 +18,15 @@
 							<th>#</th>
 							<th>Nama Lengkap</th>
 							<th>Gugus Depan</th>
+							<th>Sekolah</th>
 						</thead>
 						<tbody>
 							<?php $no = 1; foreach($member->result() as $m){ ?>
 							<tr>
 								<td><?=$no++?></td>
 								<td><?=$m->fullname?></td>
-								<td><?=$m->gudep?></td>
+								<td><?=$m->asal_gudep?></td>
+								<td><?=$m->asal_sekolah?></td>
 							</tr>
 							<?php } ?>
 						</tbody>
@@ -67,10 +69,9 @@
 			success: function(data){
 				var dataMember = JSON.parse(data)
 				swal({
-					title: dataMember.fullname + ' dari ' + dataMember.gudep,
+					title: dataMember.fullname + ' dari ' + dataMember.asal_sekolah,
 					text: "Silahkan Pilih warna untuk tantangan!"
 				})
-				// $('#randomName').html(dataMember.fullname+' dari '+dataMember.gudep)
 			}
 		})
 	}
