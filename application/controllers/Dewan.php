@@ -12,7 +12,8 @@ class Dewan extends CI_Controller {
 	public function index()
 	{
 		$data['dewan'] = $this->dewan_m->get();
-		$data['member'] = $this->db->get('anggota');
+		$data['member'] = $this->anggota_m->getByStatus();
+		$data['allMember'] = $this->db->get('anggota');
 		$this->template->load('template','dewan/data_dewan', $data);
 	}
 	public function add()

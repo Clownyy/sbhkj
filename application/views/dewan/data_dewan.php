@@ -137,8 +137,8 @@
 							</div>
 							<div class="col-md-9">
 								<input type="hidden" value="<?=$d->dewan_id?>" name="dewan_id" required>
-								<select class="form-control" name="member_id" required>
-									<?php foreach ($member->result() as $m) {?>
+								<select class="form-control" name="member_id" disabled="true">
+									<?php foreach ($allMember->result() as $m) {?>
 										<option value="<?=$m->member_id?>" <?=$m->member_id == $d->member_id ? "selected" : null ?>><?=$m->fullname?></option>
 									<?php } ?>
 								</select>

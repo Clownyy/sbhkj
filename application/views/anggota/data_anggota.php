@@ -32,12 +32,13 @@
 						<td><?=$no++?></td>
 						<td><?=$m->fullname?></td>
 						<td><?=$m->birth_place?></td>
-						<td><?=$m->birth_date?></td>
+						<td><?= date_format(new DateTime($m->birth_date), 'd M Y')?></td>
 						<td><?=$m->tahun?></td>
 						<td><?=$m->asal_sekolah?></td>
 						<td><?=$m->asal_gudep?></td>
 						<td>
-							<button type="button" data-toggle="modal" data-target="#editDewan<?=$m->member_id?>" class="btn btn-success btn-xs"><i class="fa fa-pencil"></i> Update</button>
+							<button type="button" data-toggle="modal" data-target="#editAnggota<?=$m->member_id?>" class="btn btn-success btn-xs"><i class="fa fa-pencil"></i> Update</button>
+							<a href="<?=base_url('anggota/delete/'.$m->member_id)?>" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i> Delete</a>
 						</td>
 					</tr>
 					<?php } ?>
@@ -46,3 +47,180 @@
 		</div>
 	</div>
 </section>
+<div class="modal fade" id="addAnggota" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">New Anggota</h4>
+			</div>
+			<form action="<?=base_url('anggota/add')?>" method="post">
+				<div class="modal-body">
+					<div class="form-group">
+						<div class="row">
+							<div class="col-md-3">
+								<label class="control-label">Nama Lengkap</label>
+							</div>
+							<div class="col-md-9">
+								<input type="text" class="form-control" name="fullname" required>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="row">
+							<div class="col-md-3">
+								<label class="control-label">Tempat Lahir</label>
+							</div>
+							<div class="col-md-9">
+								<input type="text" class="form-control" name="birth_place" required>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="row">
+							<div class="col-md-3">
+								<label class="control-label">Tanggal Lahir</label>
+							</div>
+							<div class="col-md-9">
+								<input type="date" class="form-control" name="birth_date" required>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="row">
+							<div class="col-md-3">
+								<label class="control-label">Tahun Aktif</label>
+							</div>
+							<div class="col-md-9">
+								<input type="number" class="form-control" name="tahun" required>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="row">
+							<div class="col-md-3">
+								<label class="control-label">Asal Sekolah</label>
+							</div>
+							<div class="col-md-9">
+								<input type="text" class="form-control" name="asal_sekolah" required>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="row">
+							<div class="col-md-3">
+								<label class="control-label">Gugus Depan</label>
+							</div>
+							<div class="col-md-9">
+								<input type="text" class="form-control" name="asal_gudep" required>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="row">
+							<div class="col-md-3">
+								<label class="control-label">Alamat</label>
+							</div>
+							<div class="col-md-9">
+								<input type="text" class="form-control" name="address" required>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+		            <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Save</button>
+		        </div>
+			</form>
+		</div>
+	</div>
+</div>
+<?php foreach($member->result() as $m){ ?>
+<div class="modal fade" id="editAnggota<?=$m->member_id?>" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">New Anggota</h4>
+			</div>
+			<form action="<?=base_url('anggota/edit')?>" method="post">
+				<div class="modal-body">
+					<div class="form-group">
+						<div class="row">
+							<div class="col-md-3">
+								<label class="control-label">Nama Lengkap</label>
+							</div>
+							<div class="col-md-9">
+								<input type="hidden" value="<?=$m->member_id?>" name="member_id" required>
+								<input type="text" class="form-control" value="<?=$m->fullname?>" name="fullname" required>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="row">
+							<div class="col-md-3">
+								<label class="control-label">Tempat Lahir</label>
+							</div>
+							<div class="col-md-9">
+								<input type="text" class="form-control" value="<?=$m->birth_place?>" name="birth_place" required>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="row">
+							<div class="col-md-3">
+								<label class="control-label">Tanggal Lahir</label>
+							</div>
+							<div class="col-md-9">
+								<input type="date" class="form-control" value="<?=$m->birth_date?>" name="birth_date" required>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="row">
+							<div class="col-md-3">
+								<label class="control-label">Tahun Aktif</label>
+							</div>
+							<div class="col-md-9">
+								<input type="number" class="form-control" value="<?=$m->tahun?>" name="tahun" required>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="row">
+							<div class="col-md-3">
+								<label class="control-label">Asal Sekolah</label>
+							</div>
+							<div class="col-md-9">
+								<input type="text" class="form-control" value="<?=$m->asal_sekolah?>" name="asal_sekolah" required>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="row">
+							<div class="col-md-3">
+								<label class="control-label">Gugus Depan</label>
+							</div>
+							<div class="col-md-9">
+								<input type="text" class="form-control" value="<?=$m->asal_gudep?>" name="asal_gudep" required>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="row">
+							<div class="col-md-3">
+								<label class="control-label">Alamat</label>
+							</div>
+							<div class="col-md-9">
+								<input type="text" class="form-control" value="<?=$m->address?>" name="address" required>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+		            <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Save</button>
+		        </div>
+			</form>
+		</div>
+	</div>
+</div>
+<?php } ?>

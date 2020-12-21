@@ -17,29 +17,42 @@ class Anggota extends CI_Controller {
 	public function add()
 	{
 		$data = array(
-			'member_id' => $this->input->post('member_id'),
-			'unique_code' => $this->input->post('unique_code'),
-			'jabatan' => $this->input->post('jabatan'),
-			'status' => $this->input->post('status'), 
+			'fullname' => $this->input->post('fullname'),
+			'birth_place' => $this->input->post('birth_place'),
+			'birth_date' => $this->input->post('birth_date'),
+			'tahun' => $this->input->post('tahun'),
+			'asal_sekolah' => $this->input->post('asal_sekolah'),
+			'asal_gudep' => $this->input->post('asal_gudep'),
+			'address' => $this->input->post('address'),
 		);
-		$this->dewan_m->add($data);
-		$this->session->set_flashdata('success', 'Penambahan Dewan Baru Sukses!');
-		redirect(base_url('dewan'));
+		$this->anggota_m->add($data);
+		$this->session->set_flashdata('success', 'Penambahan Anggota Baru Sukses!');
+		redirect(base_url('anggota'));
 	}
 	public function edit()
 	{
 		$data = array(
-			'member_id' => $this->input->post('member_id'),
-			'unique_code' => $this->input->post('unique_code'),
-			'jabatan' => $this->input->post('jabatan'),
-			'status' => $this->input->post('status'), 
+			'fullname' => $this->input->post('fullname'),
+			'birth_place' => $this->input->post('birth_place'),
+			'birth_date' => $this->input->post('birth_date'),
+			'tahun' => $this->input->post('tahun'),
+			'asal_sekolah' => $this->input->post('asal_sekolah'),
+			'asal_gudep' => $this->input->post('asal_gudep'),
+			'address' => $this->input->post('address'),
 		);
 		$where = array(
-			'dewan_id' => $this->input->post('dewan_id')
+			'member_id' => $this->input->post('member_id')
 		);
-		$this->dewan_m->edit($data, $where);
-		$this->session->set_flashdata('success', 'Perubahan Data Dewan Sukses!');
-		redirect(base_url('dewan'));
+		var_dump($where);
+		$this->anggota_m->edit($data, $where);
+		$this->session->set_flashdata('success', 'Perubahan Data Anggota Sukses!');
+		redirect(base_url('anggota'));
+	}
+	public function delete($id)
+	{
+		$this->anggota_m->del($id);
+		$this->session->set_flashdata('success', 'Hapus data anggota berhasil!');
+		redirect(base_url('anggota'));
 	}
 	public function getDataMember($id)
 	{

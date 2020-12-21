@@ -8,7 +8,14 @@ class Anggota_m extends CI_Model{
     }
     public function add($data)
     {
-    	$this->db->insert('dewan', $data);
+    	$this->db->insert('anggota', $data);
+    }
+    public function getByStatus()
+    {
+        $this->db->select('*');
+        $this->db->from('anggota');
+        $this->db->where('status', 'anggota');
+        return $this->db->get();
     }
     public function edit($data,$where)
 	{
